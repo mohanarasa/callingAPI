@@ -1,43 +1,110 @@
-var React = require('react');
+var React = require("react");
+var Dispatcher = require("../dispatchers/appDispatcher.js")
+var AppStore = require("../stores/appStore.js");
+import { Router, Route, IndexRoute, hashHistory,browserHistory } from "react-router";
+
+var Login = React.createClass({
+  getInitialState : function(){
+    return {
+      username : '',
+      password : '',
+      status   : AppStore.getRegister(),
+    }
+  },
+  getUsernameData : function(e){
+    console.log(e.target.value);
+  this.setState({
+    username : e.target.value
+  });
+  },
+  getPasswordData : function(e){
+    console.log(e.target.value);
+  this.setState({
+    password : e.target.value
+  });
+  },
+
+  onClickLogin : function(e){
+    Dispatcher.dispatch({
+          data : {
+            username : this.state.username,
+            password : this.state.password
+          },
+          action : 'login'
+        })
+
+        AppStore.on("login", function() {
+                  this.setState({
+                    status: true
+                  })
+                }.bind(this))
+
+                console.log(this.state.status  +  '--------------->react');
+
+  },
+  render: function() {
+
+    if(this.state.status){
+
+      browserHistory.push('/usersHomePage')
+    }
 
 
-var Login= React.createClass({
-  render() {
-var msg = '';
-    if(this.props.success_msg == 'You are registered and can now login'){
-     msg = this.props.success_msg ? <div className="alert alert-success">{this.props.success_msg}</div> : '';
-   }else if(this.props.error == 'Unknown User') {
-     msg = this.props.error ? <div className="alert alert-danger">{this.props.error}</div> : '';
-   }else {
-     msg = this.props.error_msg ? <div className="alert alert-danger">{this.props.error_msg} </div> : '';
-   }
 
-
-    return (
+      return (
 <div>
-        <div class="row">
-              <div className="col-lg-12">
-
-              </div>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <input id="input_text" name="username" type="text" length="10" onChange={this.getUsernameData}  />
+            <label for="input_text" >Username</label>
           </div>
-
-          <h2 className="page-header">Account Login</h2>
-          <form method="post" action="/users/login">
-            <div className="form-group">
-              <label>Username</label>
-              <input type="text" className="form-control" name="username" placeholder="Username" required / >
+        </form>
+        </div>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <input id="input_text" name="password" type="text" length="10" onChange={this.getPasswordData}  />
+              <label for="input_text" >Password</label>
             </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input type="password" className="form-control" name="password" placeholder="Password" required / >
-            </div>
-            <button type="submit" className="btn btn-default">Submit</button>
-
           </form>
+          <button  onClick={this.onClickLogin}>Login</button>
+          </div>
+</div>
 
-  </div>
-    );
-  }
-});
+      )
+    }
+})
 
 module.exports = Login;
+
+
+/****************
+
+
+
+<div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="input_text" name="username" type="text" length="10">
+          <label for="input_text" >Username</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea" onChange={this.getPasswordData}  length="10"></textarea>
+          <input id="input_text" name="username" type="text" length="10">
+          <label for="textarea1"  >Password</label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+
+
+
+
+***********/

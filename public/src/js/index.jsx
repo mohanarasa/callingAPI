@@ -8,6 +8,8 @@ var Home = require("./components/home.jsx");
 var Body = require("./components/body.jsx");
 var Footer = require ("./components/footer.jsx");
 var Loading = require ("./components/load.jsx");
+var UsersHomePage = require ("./components/usershomepage.jsx");
+
 
 var Router = require('react-router').Router
 var Route = require('react-router').Route
@@ -28,9 +30,11 @@ var App = React.createClass({
           <Route path="/" component={Home}/>
           <Route path="/login" component={Login} />
           <Route path ="/register" component={Register} />
+          <Route path ="/usersHomePage" component={UsersHomePage} />
         </Router>
-          <Body />
+        
           <Footer />
+
       </div>
     )
   }

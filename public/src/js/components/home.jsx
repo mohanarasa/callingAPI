@@ -25,7 +25,8 @@ var Home = React.createClass({
           level when its programs require attention to the irrelevant." - Alan J. Perlis.
 </h5>
       </div>
-    </li>
+    </li>  
+
     <li>
       <img src="/src/assert/image2.jpeg" />
       <div className="caption left-align">

@@ -9,6 +9,7 @@ var hashHistory = require('react-router').hashHistory;
 var browserHistory = require('react-router').browserHistory;
 
 
+
 var Register = React.createClass({
   getInitialState : function(){
     return {
@@ -53,7 +54,7 @@ var Register = React.createClass({
 
         return (
           <div>
-
+              <br/>
             <form action="action_page.php">
               Username:<br/>
             <input type="text" name="username" onChange={this.getUsernameData}/>
@@ -61,7 +62,12 @@ var Register = React.createClass({
               Password:<br/>
             <input type="password" name="password" onChange={this.getPasswordData}/>
               <br/><br/>
-              <input type="submit" value="Submit" onClick={this.onClickRegister}/>
+                <button class="btn waves-effect waves-light" type="submit" name="action" onClick={this.onClickRegister} >Submit
+          <i class="material-icons right">send</i>
+        </button>
+        <br/> <br/>
+                <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+                  <label for="filled-in-box">   I agree to term and conditions </label>
             </form>
 
 
