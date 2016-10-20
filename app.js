@@ -6,8 +6,13 @@ var bodyParser = require ('body-parser');
 var mongoose = require ('mongoose');
 var session= require ('express-session');
 var User = require ('./models/users');
+var axios = require("axios")
 
-var app= express ();
+var app= express();
+
+var username = "mohanarasa";
+var password = "sumangalya1993";
+
 mongoose.connect('mongodb://localhost/jwtproject_2');
 
 app.use (bodyParser.urlencoded({extender: false}))
@@ -70,6 +75,22 @@ User.getUserByUsername(req.body.username, function(err, user){
     })
 });
 
+app.post('/github', function(req, res){
+  axios.get('https://api.github.com/search/repositories?q='+req.body.data.q, {
+    headers: {
+        'Host': 'api.github.com',
+        'Authorization': 'Basic ' + new Buffer(username + ':' + password).toString('base64')
+    }
+  })
+  .then(function (response) {
+    console.log(response.data.items);
+    res.jsonp(response.data.items);
+  })
+  .catch(function (error) {
+    console.log(error);
+    res.send(error);
+  });
+});
 
 app.listen(2020,function(){
   console.log('port listing at port 2020');

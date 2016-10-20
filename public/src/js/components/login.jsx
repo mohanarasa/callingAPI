@@ -25,6 +25,7 @@ var Login = React.createClass({
   },
 
   onClickLogin : function(e){
+    e.preventDefault();
     Dispatcher.dispatch({
           data : {
             username : this.state.username,
@@ -39,13 +40,12 @@ var Login = React.createClass({
                   })
                 }.bind(this))
 
-                console.log(this.state.status  +  '--------------->react');
 
   },
   render: function() {
 
     if(this.state.status){
-
+      localStorage.setItem('myFirstKey', 'Hello world');
       browserHistory.push('/usersHomePage')
     }
 
@@ -64,7 +64,7 @@ var Login = React.createClass({
         <div class="row">
           <form class="col s12">
             <div class="row">
-              <input id="input_text" name="password" type="text" length="10" onChange={this.getPasswordData}  />
+              <input id="password" name="password" type="text" length="10" onChange={this.getPasswordData}  />
               <label for="input_text" >Password</label>
             </div>
           </form>

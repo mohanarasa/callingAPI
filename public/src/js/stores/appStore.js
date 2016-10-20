@@ -5,6 +5,7 @@ var Dispatcher = require('../dispatchers/appDispatcher.js');
 
 var register = false;
 var login = false;
+var search = [];
 
 
 var AppStore = merge(EventEmitter.prototype, {
@@ -13,6 +14,9 @@ var AppStore = merge(EventEmitter.prototype, {
   },
   getLogin : function(){
     return login;
+  },
+  getSearch: function() {
+    return search;
   }
 });
 
@@ -56,6 +60,26 @@ function handleAction(payload) {
       console.log(error);
     });
 
+  } else if(payload.action === 'github') {
+    axios.post('http://localhost:2020/github', {
+      data: {
+        q: payload.q
+      }
+    })
+    .then(function(response) {
+      search = response.data.map(function(repo, i) {
+        return {
+          name: repo.name,
+          user: repo.owner.login,
+          avatar: repo.owner.avatar_url,
+          description: repo.description
+        }
+      });
+      AppStore.emit("github");
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
   }
 
 }

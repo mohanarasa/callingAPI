@@ -1,5 +1,6 @@
 var React = require("react");
-
+var Body = require("../components/body.jsx");
+var Footer = require ("../components/footer.jsx");
 var Home = React.createClass({
 
   getInitialState: function() {
@@ -25,7 +26,7 @@ var Home = React.createClass({
           level when its programs require attention to the irrelevant." - Alan J. Perlis.
 </h5>
       </div>
-    </li>  
+    </li>
 
     <li>
       <img src="/src/assert/image2.jpeg" />
@@ -50,6 +51,8 @@ var Home = React.createClass({
       </div>
     </li>
   </ul>
+  <Body/>
+  <Footer />
 </div>
 
     )

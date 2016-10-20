@@ -1,34 +1,70 @@
 var React = require("react");
+import {Link} from "react-router"
+var Dispatcher = require("../dispatchers/appDispatcher.js");
+var AppStore = require("../stores/appStore.js");
 
 var UsersHomePage = React.createClass({
 
-  render: function(){
-      return(
-        <div>
-        <div className="carousel carousel-slider center" data-indicators="true">
-          <div className="carousel-fixed-item center">
-            <a class="btn waves-effect white grey-text darken-text-2">button</a>
-          </div>
-          <div className="carousel-item red white-text" href="#one!">
-            <h2>First Panel</h2>
-            <p className="white-text">Welcome Back Ollie</p>
-          </div>
-          <div className="carousel-item amber white-text" href="#two!">
-            <h2>Second Panel</h2>
-            <p className="white-text">Favourits</p>
-          </div>
-          <div className="carousel-item green white-text" href="#three!">
-            <h2>Third Panel</h2>
-            <p className="white-text">Profile</p>
-          </div>
-        </div>
-        </div>
+  getInitialState: function() {
+    return {
+      search: ""
+    }
+  },
 
+  componentDidMount: function() {
+    var self = this;
+    AppStore.on("github", function() {
+      self.setState({
+        search: AppStore.getSearch()
+      })
+    });
+  },
+
+  getSearchData: function(event) {
+    this.setState({
+      q: event.target.value
+    });
+  },
+
+  search: function(e) {
+    e.preventDefault();
+    Dispatcher.dispatch({
+      action: "github",
+      q: this.state.q
+    })
+  },
+
+  render: function(){
+
+      if (this.state.search) {
+        console.log(this.state.search);
+        var repos = this.state.search.map(function(repo, i) {
+          return (<li className="repo">{repo.name}</li>)
+        });
+        var results = (
+          <ul id="repoList">
+            {repos}
+          </ul>
+        )
+      } else {
+        var results = "";
+      }
+      return(
+        <div className="row">
+          <form className="col s12" onSubmit={this.search}>
+            <div class="row">
+              <div className="input-field col s6">
+                <i className="material-icons search">search</i>
+                <input id="search" class="materialize-input" onChange={this.getSearchData}></input>
+                <label for="search"></label>
+              </div>
+            </div>
+          </form>
+          {results}
+        </div>
       )
 
     }
   });
-
-  // console.log(Register);
 
   module.exports = UsersHomePage;
