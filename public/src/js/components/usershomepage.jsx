@@ -39,7 +39,24 @@ var UsersHomePage = React.createClass({
       if (this.state.search) {
         console.log(this.state.search);
         var repos = this.state.search.map(function(repo, i) {
-          return (<li className="repo">{repo.name}</li>)
+          return (
+
+          <div className="row">
+                    <div className="col s12 m5">
+                      <div className="card-panel teal">
+                        <img src={repo.avatar} width='150px' height='150px'/>
+                        <span className="white-text">I
+                        {repo.name}
+                        </span>
+                        <div>
+                          <p>{repo.username}</p>
+                          <p>{repo.description}</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+    )
         });
         var results = (
           <ul id="repoList">
@@ -60,10 +77,36 @@ var UsersHomePage = React.createClass({
               </div>
             </div>
           </form>
+
           {results}
         </div>
-      )
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  )
     }
   });
 
