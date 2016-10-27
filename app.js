@@ -10,13 +10,19 @@ var axios = require("axios")
 
 var app= express();
 
-var username = "mohanarasa";
-var password = "sumangalya1993";
+// var username = "mohanarasa";
+// var password = "sumangalya1993";
 
-mongoose.connect('mongodb://localhost/jwtproject_2');
+var username = process.env.USERNAME;
+var password = process.env.PASSWORD;
+var db = process.env.MONGODB_URI || 'mongodb://localhost/jwtproject_2';
 
-app.use (bodyParser.urlencoded({extender: false}))
-app.use (bodyParser.json())
+mongoose.connect(db, function() {
+  console.log("database connected");
+});
+
+app.use (bodyParser.urlencoded({extender: false}));
+app.use (bodyParser.json());
 app.use (cookieParser());
 
 
